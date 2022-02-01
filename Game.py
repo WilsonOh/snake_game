@@ -63,7 +63,7 @@ class Game:
         if keys[pygame.K_s] and self.snake.direction != self.Direction.UP:
             self.snake.direction = self.Direction.DOWN
         if keys[pygame.K_ESCAPE]:
-            self.game_over()
+            self.pause_game()
 
     def draw_window(self):
         self.window.fill(pygame.Color('white'))
@@ -72,7 +72,7 @@ class Game:
         for y in range(0, self.window.get_width(), self.SQ_SIZE):
             pygame.draw.line(self.window, pygame.Color('grey'), (y, 0), (y, self.window.get_height()))
 
-    def game_over(self):
+    def pause_game(self):
         clock = pygame.time.Clock()
         paused = True
         font = pygame.font.SysFont("comicsans", self.window.get_height()//15, bold=True)
