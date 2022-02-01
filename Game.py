@@ -32,6 +32,7 @@ class Game:
     def run(self):
         pygame.init()
         self.window = pygame.display.set_mode((self.WIDTH, self.HEIGHT), pygame.RESIZABLE)
+        pygame.display.set_caption('Snake Game')
         self.snake = Snake(self.snake_init_len, self)
         self.food = Food(self)
         self.food.spawn(self.snake)

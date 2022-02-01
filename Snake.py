@@ -46,5 +46,8 @@ class Snake:
                 self.body = self.body[:idx]
 
     def draw(self):
-        for block in self.body:
-            pygame.draw.rect(self.game.window, pygame.Color('green'), block)
+        for idx, block in enumerate(self.body):
+            if idx == 0:
+                pygame.draw.rect(self.game.window, pygame.Color('purple'), block)
+            else:
+                pygame.draw.rect(self.game.window, pygame.Color('green'), block)
