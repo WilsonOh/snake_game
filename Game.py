@@ -77,7 +77,8 @@ class Game:
         clock = pygame.time.Clock()
         paused = True
         font = pygame.font.SysFont("comicsans", self.window.get_height()//15, bold=True)
-        game_over_font = font.render(f"GAME PAUSED. YOUR SCORE IS {len(self.snake.body) - 3}", True, pygame.Color('red'))
+        game_over_font = font.render(f"GAME PAUSED. YOUR SCORE IS {len(self.snake.body) - 3}",
+                                     True, pygame.Color('red'))
         keys_font = font.render("Press escape to return or q to quit", True, pygame.Color('blue'))
         while paused:
             clock.tick(5)

@@ -5,4 +5,7 @@
 - Snake appears out of the opposite wall when you slither into a wall
 - Snake will cannibalize itself when it hits its own body, shortening its length
 
+## Dependencies
+- pygame 2
+
 ### Press ESC to pause and unpause the game
