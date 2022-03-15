@@ -5,6 +5,7 @@
 - Infinite game -> you can never die
 - Snake appears out of the opposite wall when you slither into a wall
 - Snake will cannibalize itself when it hits its own body, shortening its length
+- Keep eating the fruit to become infinitely long!
 
 ## Customization
 
