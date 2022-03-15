@@ -1,41 +1,44 @@
 from pygame import Rect
 import pygame
 import random
+from settings import *
+from directions import Direction
 
 
 class Snake:
-    def __init__(self, start_len, game):
+    def __init__(self):
         self.body = []
-        self.game = game
-        self.init_body(start_len)
-        self.direction = random.choice(list(game.Direction))
-        self.game_over = False
+        self.init_body()
+        self.direction = random.choice(list(Direction))
+        self.window = pygame.display.get_surface()
 
-    def init_body(self, start_len):
-        for i in range(start_len):
+    def init_body(self):
+        for i in range(SNAKE_INIT_LEN):
             self.body.append(
-                Rect(((self.game.SQ_WIDTH // 2) - i) * self.game.SQ_SIZE,
-                     (self.game.SQ_HEIGHT // 2) * self.game.SQ_SIZE,
-                     self.game.SQ_SIZE, self.game.SQ_SIZE))
+                Rect(((SQ_WIDTH // 2) - i) * SQ_SIZE,
+                     (SQ_HEIGHT // 2) * SQ_SIZE,
+                     SQ_SIZE, SQ_SIZE))
 
-    def move(self, grow=False):
-        new = Rect(self.body[0].x, self.body[0].y, self.game.SQ_SIZE, self.game.SQ_SIZE)
-        if self.direction == self.game.Direction.UP:
-            if self.body[0].y < 0:
-                new.update(new.x, self.game.window.get_height(), self.game.SQ_SIZE, self.game.SQ_SIZE)
-            new = new.move(0, -self.game.SQ_SIZE)
-        if self.direction == self.game.Direction.DOWN:
-            if self.body[0].y > self.game.window.get_height() - self.game.SQ_SIZE:
-                new.update(new.x, -self.game.SQ_SIZE, self.game.SQ_SIZE, self.game.SQ_SIZE)
-            new = new.move(0, self.game.SQ_SIZE)
-        if self.direction == self.game.Direction.RIGHT:
-            if self.body[0].x > self.game.window.get_width() - self.game.SQ_SIZE:
-                new.update(-self.game.SQ_SIZE, new.y, self.game.SQ_SIZE, self.game.SQ_SIZE)
-            new = new.move(self.game.SQ_SIZE, 0)
-        if self.direction == self.game.Direction.LEFT:
-            if self.body[0].x < 0:
-                new.update(self.game.window.get_width(), new.y, self.game.SQ_SIZE, self.game.SQ_SIZE)
-            new = new.move(-self.game.SQ_SIZE, 0)
+    def move_or_grow(self, grow=False):
+        window_rect = self.window.get_rect()
+        new = Rect(self.body[0].x, self.body[0].y, SQ_SIZE, SQ_SIZE)
+        match self.direction:
+            case Direction.UP:
+                if self.body[0].y < 0:
+                    new.top = window_rect.bottom
+                new.move_ip(0, -SQ_SIZE)
+            case Direction.DOWN:
+                if self.body[0].y > window_rect.height - SQ_SIZE:
+                    new.bottom = window_rect.top
+                new.move_ip(0, SQ_SIZE)
+            case Direction.RIGHT:
+                if self.body[0].x > window_rect.width - SQ_SIZE:
+                    new.right = window_rect.left
+                new.move_ip(SQ_SIZE, 0)
+            case Direction.LEFT:
+                if self.body[0].x < 0:
+                    new.left = window_rect.right
+                new.move_ip(-SQ_SIZE, 0)
         self.body.insert(0, new)
         if not grow:
             self.body.pop()
@@ -48,6 +51,6 @@ class Snake:
     def draw(self):
         for idx, block in enumerate(self.body):
             if idx == 0:
-                pygame.draw.rect(self.game.window, pygame.Color('purple'), block)
+                pygame.draw.rect(self.window, pygame.Color('purple'), block)
             else:
-                pygame.draw.rect(self.game.window, pygame.Color('green'), block)
+                pygame.draw.rect(self.window, pygame.Color('burlywood4'), block)
